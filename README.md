@@ -1,7 +1,7 @@
 # Teste Vocacional 🎓✨
 
 Este é um site simples de **teste vocacional online**, desenvolvido em HTML, CSS e JavaScript.  
-O objetivo é ajudar **adolescentes do ensino médio** a refletirem sobre seus interesses e afinidades com diferentes áreas profissionais.
+O objetivo é ajudar **adolescentes do ensino fundamental** a refletirem sobre seus interesses e afinidades com diferentes áreas profissionais.
 
 ## 🚀 Como funciona?
 - O usuário responde a **10 perguntas** sobre seus gostos, interesses e preferências.
@@ -12,9 +12,8 @@ O objetivo é ajudar **adolescentes do ensino médio** a refletirem sobre seus i
   - **Artes & Comunicação**
 
 ## 🌐 Acesse o site
-👉 [Clique aqui para fazer o teste](https://seu-usuario.github.io/Teste-Vocacional/)  
+👉 [Clique aqui para fazer o teste] https://search.app/1fBkhmbhqVWnovGz5
 
-*(o link é o do GitHub Pages, substitua com o seu)*
 
 ## 🛠️ Tecnologias usadas
 - HTML  
