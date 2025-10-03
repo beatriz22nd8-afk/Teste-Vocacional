@@ -2,111 +2,209 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teste Vocacional</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 0;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
       text-align: center;
+      color: #333;
     }
-    header {
-      background: #4a90e2;
-      color: white;
+    .pergunta {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .resultado {
+      margin-top: 30px;
       padding: 20px;
-      font-size: 22px;
-      font-weight: bold;
+      background: #e9f7ef;
+      border-radius: 8px;
+      font-weight: normal;
+      display: none;
     }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    .resultado h2 {
+      color: #2e7d32;
+      margin-top: 0;
     }
-    .question {
-      font-size: 18px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .options button {
+    button {
       display: block;
-      width: 100%;
-      margin: 8px 0;
-      padding: 12px;
-      background: #4a90e2;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007BFF;
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: 0.3s;
     }
-    .options button:hover {
-      background: #357ab7;
-    }
-    #result {
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 20px;
-      color: #333;
+    button:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
-  <header>🔮 Teste Vocacional</header>
-  <div class="container">
-    <div id="quiz"></div>
-    <p id="result"></p>
-  </div>
+
+  <h1>Teste Vocacional</h1>
+  <form id="testeForm">
+    
+    <!-- PERGUNTAS -->
+    <div class="pergunta">
+      <p>1. Na escola, a disciplina que mais me interessava era…</p>
+      <label><input type="radio" name="q1" value="E"> Matemática/Física/Química [Exatas]</label><br>
+      <label><input type="radio" name="q1" value="H"> História/Geografia/Sociologia [Humanas]</label><br>
+      <label><input type="radio" name="q1" value="B"> Biologia/Química ligada ao corpo humano [Biológicas]</label><br>
+      <label><input type="radio" name="q1" value="A"> Administração/Economia/Empreendedorismo [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>2. O ambiente de trabalho que mais combina comigo é…</p>
+      <label><input type="radio" name="q2" value="E"> Laboratório, engenharia, tecnologia [Exatas]</label><br>
+      <label><input type="radio" name="q2" value="H"> Escola, universidade, projetos sociais [Humanas]</label><br>
+      <label><input type="radio" name="q2" value="B"> Hospital, clínica, pesquisa em saúde [Biológicas]</label><br>
+      <label><input type="radio" name="q2" value="A"> Empresa, escritório, setor financeiro [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>3. Eu me sinto mais realizado quando…</p>
+      <label><input type="radio" name="q3" value="E"> Resolvo cálculos ou desafios lógicos [Exatas]</label><br>
+      <label><input type="radio" name="q3" value="H"> Debato ideias e compartilho conhecimento [Humanas]</label><br>
+      <label><input type="radio" name="q3" value="B"> Cuido da saúde e do bem-estar das pessoas [Biológicas]</label><br>
+      <label><input type="radio" name="q3" value="A"> Organizo e lidero equipes ou negócios [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>4. Se eu tivesse que escolher uma missão de vida, seria…</p>
+      <label><input type="radio" name="q4" value="E"> Criar soluções inovadoras e tecnológicas [Exatas]</label><br>
+      <label><input type="radio" name="q4" value="H"> Transformar pessoas por meio da educação e diálogo [Humanas]</label><br>
+      <label><input type="radio" name="q4" value="B"> Ajudar a salvar vidas e promover saúde [Biológicas]</label><br>
+      <label><input type="radio" name="q4" value="A"> Construir e gerenciar projetos de sucesso [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>5. Me identifico mais com profissionais como…</p>
+      <label><input type="radio" name="q5" value="E"> Engenheiros, cientistas, programadores [Exatas]</label><br>
+      <label><input type="radio" name="q5" value="H"> Professores, psicólogos, advogados [Humanas]</label><br>
+      <label><input type="radio" name="q5" value="B"> Médicos, enfermeiros, nutricionistas [Biológicas]</label><br>
+      <label><input type="radio" name="q5" value="A"> Administradores, economistas, empresários [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>6. Entre essas atividades, eu prefiro…</p>
+      <label><input type="radio" name="q6" value="E"> Resolver cálculos, programar ou montar experimentos [Exatas]</label><br>
+      <label><input type="radio" name="q6" value="H"> Ler, escrever, debater ou ensinar [Humanas]</label><br>
+      <label><input type="radio" name="q6" value="B"> Estudar o corpo humano, cuidar de pessoas [Biológicas]</label><br>
+      <label><input type="radio" name="q6" value="A"> Planejar, organizar ou gerir recursos [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>7. Em um grupo de trabalho, normalmente eu…</p>
+      <label><input type="radio" name="q7" value="E"> Faço contas, calculo, crio soluções práticas [Exatas]</label><br>
+      <label><input type="radio" name="q7" value="H"> Escuto e ajudo a mediar conversas [Humanas]</label><br>
+      <label><input type="radio" name="q7" value="B"> Cuido do bem-estar e incentivo todos [Biológicas]</label><br>
+      <label><input type="radio" name="q7" value="A"> Organizo prazos e divido responsabilidades [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>8. Quando penso em uma carreira de sucesso, imagino…</p>
+      <label><input type="radio" name="q8" value="E"> Trabalhando com tecnologia, engenharia ou pesquisa [Exatas]</label><br>
+      <label><input type="radio" name="q8" value="H"> Lidando com pessoas, educação ou comunicação [Humanas]</label><br>
+      <label><input type="radio" name="q8" value="B"> Na área da saúde, promovendo qualidade de vida [Biológicas]</label><br>
+      <label><input type="radio" name="q8" value="A"> Gerenciando empresas, finanças ou projetos [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>9. Se tivesse que escolher um curso universitário hoje…</p>
+      <label><input type="radio" name="q9" value="E"> Engenharia, Ciência da Computação, Física [Exatas]</label><br>
+      <label><input type="radio" name="q9" value="H"> Direito, Psicologia, Pedagogia, História [Humanas]</label><br>
+      <label><input type="radio" name="q9" value="B"> Medicina, Enfermagem, Biomedicina, Nutrição [Biológicas]</label><br>
+      <label><input type="radio" name="q9" value="A"> Administração, Economia, Contabilidade, Gestão [Administrativas]</label>
+    </div>
+
+    <div class="pergunta">
+      <p>10. A frase que mais combina comigo é…</p>
+      <label><input type="radio" name="q10" value="E"> “Gosto de lógica e números.” [Exatas]</label><br>
+      <label><input type="radio" name="q10" value="H"> “Gosto de entender e ajudar pessoas.” [Humanas]</label><br>
+      <label><input type="radio" name="q10" value="B"> “Gosto de cuidar e promover saúde.” [Biológicas]</label><br>
+      <label><input type="radio" name="q10" value="A"> “Gosto de organizar, planejar e liderar.” [Administrativas]</label>
+    </div>
+
+    <button type="button" onclick="calcularResultado()">Ver Resultado</button>
+  </form>
+
+  <div class="resultado" id="resultado"></div>
 
   <script>
-    const questions = [
-      { q: "Qual matéria da escola você mais gosta?", a: ["Matemática", "Biologia", "Artes", "História"] },
-      { q: "Se tivesse que escolher uma atividade, qual seria?", a: ["Resolver um desafio lógico", "Cuidar de animais", "Criar uma música ou desenho", "Liderar um grupo em um projeto"] },
-      { q: "Como você se imagina trabalhando no futuro?", a: ["Em um escritório resolvendo cálculos", "Em hospitais ou cuidando de pessoas", "Criando algo novo", "Comandando equipes"] },
-      { q: "Qual desses lugares mais combina com você?", a: ["Laboratório de ciência", "Clínica veterinária", "Estúdio de design", "Tribunal ou prefeitura"] },
-      { q: "Qual tipo de filme você prefere?", a: ["Investigação", "Drama emocionante", "Comédia criativa", "Filme sobre líderes e revoluções"] },
-      { q: "O que mais chama sua atenção em uma profissão?", a: ["Boa lógica", "Ajudar pessoas", "Liberdade criativa", "Poder influenciar"] },
-      { q: "Você se considera mais...", a: ["Racional", "Empático", "Imaginativo", "Comunicativo"] },
-      { q: "Se tivesse que escolher um hobby:", a: ["Jogos de estratégia", "Ajudar em ONGs", "Pintar ou escrever", "Debater ideias"] },
-      { q: "Qual dessas palavras você mais se identifica?", a: ["Organização", "Cuidado", "Inspiração", "Liderança"] },
-      { q: "Se fosse criar um projeto escolar, qual escolheria?", a: ["Feira de ciências", "Campanha de doação", "Apresentação artística", "Simulação de política"] }
-    ];
+    function calcularResultado() {
+      const form = document.forms["testeForm"];
+      const respostas = {};
+      let todasRespondidas = true;
 
-    const areas = ["Exatas", "Saúde", "Artes", "Humanas"];
-    let scores = [0, 0, 0, 0];
-    let current = 0;
+      for (let i = 1; i <= 10; i++) {
+        const resposta = form["q" + i].value;
+        if (!resposta) {
+          todasRespondidas = false;
+          break;
+        }
+        respostas[resposta] = (respostas[resposta] || 0) + 1;
+      }
 
-    function showQuestion() {
-      if (current >= questions.length) {
-        let maxScore = Math.max(...scores);
-        let index = scores.indexOf(maxScore);
-        document.getElementById("quiz").innerHTML = "";
-        document.getElementById("result").innerText =
-          "✨ Seu perfil combina mais com a área de: " + areas[index] + "!";
+      if (!todasRespondidas) {
+        alert("Responda todas as perguntas antes de ver o resultado.");
         return;
       }
 
-      let q = questions[current];
-      let html = `<div class="question">${q.q}</div><div class="options">`;
-      q.a.forEach((option, i) => {
-        html += `<button onclick="answer(${i})">${option}</button>`;
-      });
-      html += "</div>";
-      document.getElementById("quiz").innerHTML = html;
-    }
+      // Perfis e descrições
+      const perfis = {
+        "E": {
+          nome: "Exatas",
+          descricao: "Você gosta de lógica, números e raciocínio. Prefere resolver problemas e encontrar soluções práticas.",
+          profissoes: "Engenharia, Ciência da Computação, Estatística, Física, Arquitetura, Matemática."
+        },
+        "H": {
+          nome: "Humanas",
+          descricao: "Você se interessa por pessoas, culturas e relações sociais. Valoriza o diálogo e a troca de ideias.",
+          profissoes: "Direito, Psicologia, Pedagogia, Jornalismo, História, Ciências Sociais."
+        },
+        "B": {
+          nome: "Biológicas / Saúde",
+          descricao: "Você tem afinidade com o corpo humano, a natureza e a saúde. Gosta de cuidar e promover bem-estar.",
+          profissoes: "Medicina, Enfermagem, Biomedicina, Nutrição, Fisioterapia, Odontologia."
+        },
+        "A": {
+          nome: "Administrativas / Sociais",
+          descricao: "Você gosta de organizar, liderar e planejar. Tem perfil empreendedor e foco em resultados.",
+          profissoes: "Administração, Economia, Contabilidade, Gestão de Empresas, Marketing, Comércio Exterior."
+        }
+      };
 
-    function answer(choice) {
-      scores[choice]++;
-      current++;
-      showQuestion();
-    }
+      // Ver qual área teve mais pontos
+      let maior = 0;
+      let perfilEscolhido = "";
 
-    showQuestion();
+      for (const area in respostas) {
+        if (respostas[area] > maior) {
+          maior = respostas[area];
+          perfilEscolhido = area;
+        }
+      }
+
+      const resultadoDiv = document.getElementById("resultado");
+      resultadoDiv.style.display = "block";
+      resultadoDiv.innerHTML = `
+        <h2>Seu perfil vocacional é: ${perfis[perfilEscolhido].nome} 🎯</h2>
+        <p>${perfis[perfilEscolhido].descricao}</p>
+        <p><strong>Possíveis profissões:</strong> ${perfis[perfilEscolhido].profissoes}</p>
+      `;
+    }
   </script>
+
 </body>
 </html>
