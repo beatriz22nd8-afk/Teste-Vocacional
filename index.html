@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teste Vocacional — Seu Nome</title>
+  <meta name="description" content="Teste vocacional simples e responsivo.">
+  <style>
+    :root{font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{margin:0;background:#f2f4f7;color:#0b0b0b;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{width:100%;max-width:720px;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(10,10,20,.08);padding:18px}
+    header{display:flex;align-items:center;gap:12px}
+    h1{font-size:20px;margin:0}
+    p.lead{color:#555;margin:8px 0 18px}
+    .question-area{min-height:220px;display:flex;flex-direction:column;gap:12px}
+    .options{display:flex;flex-direction:column;gap:8px}
+    .opt{padding:12px;border-radius:8px;border:1px solid #e6e9ee;background:#fbfdff}
+    .opt input{margin-right:10px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{background:#0b6ef6;color:#fff;border:0;padding:10px 14px;border-radius:8px;font-weight:600}
+    .btn-ghost{background:#eef3ff;color:#0b3a8a}
+    .result{margin-top:12px;padding:12px;border-radius:8px;background:#f7fbff;border:1px solid #e6f0ff}
+    .small{font-size:13px;color:#666}
+    footer{margin-top:14px;font-size:13px;color:#666}
+    @media(min-width:680px){h1{font-size:22px}}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <header>
+      <div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#0b6ef6,#6fb3ff)"></div>
+      <div>
+        <h1>Teste Vocacional — Rápido</h1>
+        <div class="small">Responda com sinceridade. Mobile-friendly.</div>
+      </div>
+    </header>
+
+    <p class="lead">Clique nas opções que mais combinam com você. No final, veja o resultado e compartilhe.</p>
+
+    <section id="app">
+      <div class="question-area" id="questionArea"></div>
+      <div class="controls" id="controls"></div>
+      <div id="resultContainer"></div>
+    </section>
+
+    <footer>
+      <div class="small">Feito com ❤️ — personalize as perguntas editando o arquivo index.html</div>
+    </footer>
+  </main>
+
+<script>
+/*
+  Para editar o teste: modifique o array `questions` abaixo.
+  Cada opção tem um objeto "scores" com a categoria que soma 1 ponto.
+*/
+
+const questions = [
+  {
+    text: "Você prefere trabalhar com:",
+    options: [
+      {text:"Números, lógica e tecnologia", scores:{Tecnologia:1}},
+      {text:"Criatividade, imagens e layout", scores:{Design:1}},
+      {text:"Cuidar e ajudar pessoas", scores:{Saúde:1}},
+      {text:"Ensinar, explicar e orientar", scores:{Educação:1}}
+    ]
+  },
+  {
+    text: "Num projeto em equipe, seu papel é:",
+    options: [
+      {text:"Desenvolver a parte técnica", scores:{Tecnologia:1}},
+      {text:"Criar identidade visual", scores:{Design:1}},
+      {text:"Apoiar o bem-estar do time", scores:{Saúde:1}},
+      {text:"Organizar e liderar reuniões", scores:{Negócios:1}}
+    ]
+  },
+  {
+    text: "O que te motiva mais?",
+    options: [
+      {text:"Resolver problemas complexos", scores:{Tecnologia:1}},
+      {text:"Produzir algo bonito e útil", scores:{Design:1}},
+      {text:"Melhorar a vida das pessoas", scores:{Saúde:1}},
+      {text:"Ver pessoas aprenderem", scores:{Educação:1}}
+    ]
+  },
+  {
+    text: "Se ganhasse um curso grátis, qual escolheria?",
+    options: [
+      {text:"Programação / Dados", scores:{Tecnologia:1}},
+      {text:"Design gráfico / UX", scores:{Design:1}},
+      {text:"Enfermagem / Psicologia", scores:{Saúde:1}},
+      {text:"Pedagogia / Didática", scores:{Educação:1}}
+    ]
+  },
+  {
+    text: "Como você prefere passar seu tempo livre?",
+    options: [
+      {text:"Aprendendo algo técnico (cursos, tutoriais)", scores:{Tecnologia:1}},
+      {text:"Fazendo projetos manuais ou arte", scores:{Design:1}},
+      {text:"Voluntariando ou ajudando alguém", scores:{Saúde:1}},
+      {text:"Lendo e explicando conceitos para amigos", scores:{Educação:1}}
+    ]
+  }
+];
+
+// categorias possíveis (padrão extra caso alguma opção use)
+const allCategories = ["Tecnologia","Design","Saúde","Educação","Negócios"];
+
+let currentIndex = 0;
+const answers = []; // stores index of selected option per question
+
+const questionArea = document.getElementById('questionArea');
+const controls = document.getElementById('controls');
+const resultContainer = document.getElementById('resultContainer');
+
+function renderQuestion(i){
+  const q = questions[i];
+  questionArea.innerHTML = `
+    <div>
+      <div style="font-weight:700">Pergunta ${i+1} de ${questions.length}</div>
+      <div style="margin:8px 0;font-size:18px">${escapeHtml(q.text)}</div>
+      <div class="options" id="opts"></div>
+    </div>
+  `;
+  const opts = document.getElementById('opts');
+  q.options.forEach((o, idx) => {
+    const checked = answers[i] === idx ? 'checked' : '';
+    const id = `opt-${i}-${idx}`;
+    const row = document.createElement('label');
+    row.className = 'opt';
+    row.innerHTML = `<input type="radio" name="q${i}" id="${id}" ${checked} value="${idx}"> ${escapeHtml(o.text)}`;
+    row.querySelector('input').addEventListener('change', () => {
+      answers[i] = idx;
+      renderControls();
+    });
+    opts.appendChild(row);
+  });
+  renderControls();
+}
+
+function renderControls(){
+  controls.innerHTML = '';
+  const back = document.createElement('button');
+  back.className = 'btn-ghost';
+  back.textContent = 'Voltar';
+  back.disabled = currentIndex === 0;
+  back.addEventListener('click', () => { currentIndex--; renderQuestion(currentIndex); });
+  const next = document.createElement('button');
+  next.textContent = currentIndex < questions.length-1 ? 'Próxima' : 'Finalizar';
+  next.addEventListener('click', () => {
+    // require answer
+    if (typeof answers[currentIndex] === 'undefined'){ alert('Escolha uma opção antes de seguir.'); return; }
+    if (currentIndex < questions.length-1){ currentIndex++; renderQuestion(currentIndex); }
+    else finishTest();
+  });
+  const save = document.createElement('button');
+  save.className = 'btn-ghost';
+  save.textContent = 'Salvar progresso';
+  save.addEventListener('click', () => {
+    localStorage.setItem('vocacional_answers', JSON.stringify({answers, currentIndex}));
+    alert('Progresso salvo localmente no seu iPhone.');
+  });
+
+  controls.appendChild(back);
+  controls.appendChild(next);
+  controls.appendChild(save);
+}
+
+function finishTest(){
+  // compute scores
+  const totals = {};
+  allCategories.forEach(c=>totals[c]=0);
+  questions.forEach((q, qi) => {
+    const a = answers[qi];
+    if (typeof a === 'undefined') return;
+    const opt = q.options[a];
+    if (opt && opt.scores){
+      Object.entries(opt.scores).forEach(([k,v])=>{
+        if (!(k in totals)) totals[k]=0;
+        totals[k]+=Number(v)||0;
+      });
+    }
+  });
+  // find max
+  let max = -Infinity;
+  Object.values(totals).forEach(v=>{ if (v>max) max=v; });
+  const winners = Object.keys(totals).filter(k=>totals[k]===max);
+  showResult(winners, totals);
+}
+
+function showResult(winners, totals){
+  resultContainer.innerHTML = '';
+  const title = document.createElement('div');
+  title.className = 'result';
+  title.innerHTML = `<strong>Resultado:</strong><div style="margin-top:8px">${escapeHtml(winners.join(' / '))}</div>
+    <div class="small" style="margin-top:8px">Detalhe: ${Object.entries(totals).map(e=>`${e[0]}:${e[1]}`).join(' • ')}</div>`;
+  // description (you can expand this mapping)
+  const descriptions = {
+    'Tecnologia':'Você gosta de lógica, resolução de problemas e tecnologia — áreas como programação, dados e TI combinam com você.',
+    'Design':'Você valoriza a estética e a experiência — áreas como design gráfico, UX/UI e multimídia podem ser boas.',
+    'Saúde':'Você se importa com o bem-estar alheio — carreiras da saúde e apoio social são compatíveis.',
+    'Educação':'Você gosta de ensinar e organizar conhecimento — educação, treinamento e comunicação são caminhos.',
+    'Negócios':'Interesse por gestão, organização e resultados — áreas como administração, vendas e empreendedorismo.'
+  };
+  const desc = winners.map(w=>descriptions[w]||'').join('<br>');
+  const p = document.createElement('div');
+  p.style.marginTop='10px';
+  p.innerHTML = `<div class="small">${desc}</div>`;
+  const shareBtn = document.createElement('button');
+  shareBtn.textContent = 'Compartilhar resultado';
+  shareBtn.addEventListener('click', () => shareResult(winners, totals));
+  const retake = document.createElement('button');
+  retake.className='btn-ghost';
+  retake.textContent='Refazer';
+  retake.addEventListener('click', ()=>{ currentIndex=0; answers.length=0; renderQuestion(0); resultContainer.innerHTML=''; });
+  resultContainer.appendChild(title);
+  resultContainer.appendChild(p);
+  resultContainer.appendChild(shareBtn);
+  resultContainer.appendChild(retake);
+
+  // save last result
+  localStorage.setItem('vocacional_last_result', JSON.stringify({winners, totals, when:new Date().toISOString()}));
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+
+function shareResult(winners, totals){
+  const text = `Resultado do meu Teste Vocacional: ${winners.join(' / ')}\nDetalhes: ${Object.entries(totals).map(e=>`${e[0]}:${e[1]}`).join(' • ')}`;
+  if (navigator.share){
+    navigator.share({title:'Meu Resultado Vocacional', text});
+  } else if (navigator.clipboard){
+    navigator.clipboard.writeText(text).then(()=>alert('Resultado copiado para a área de transferência.'));
+  } else {
+    prompt('Copie seu resultado:', text);
+  }
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+
+// load saved progress (if existir)
+(function init(){
+  const saved = localStorage.getItem('vocacional_answers');
+  if (saved){
+    try{
+      const obj = JSON.parse(saved);
+      if (obj && Array.isArray(obj.answers)){
+        if (confirm('Encontrei progresso salvo no seu iPhone. Carregar?')){
+          obj.answers.forEach((a,i)=>answers[i]=a);
+          currentIndex = obj.currentIndex || 0;
+        } else {
+          localStorage.removeItem('vocacional_answers');
+        }
+      }
+    }catch(e){}
+  }
+  renderQuestion(currentIndex);
+})();
+</script>
+</body>
+</html>
