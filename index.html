@@ -257,24 +257,20 @@ function showQuestion(n) {
 }
 
 function nextPrev(n) {
-  // Checar se a pergunta foi respondida
+  // Verificar se alguma opção foi selecionada
   const options = questions[currentQuestion].querySelectorAll('input[type="radio"]');
   const answered = Array.from(options).some(opt => opt.checked);
-  if(n === 1 && !answered) { alert("Por favor, escolha uma opção."); return; }
+  if (n === 1 && !answered) { alert("Por favor, escolha uma opção."); return; }
 
   currentQuestion += n;
 
-  if(currentQuestion >= totalQuestions){
+  if (currentQuestion >= totalQuestions){
     calcularResultado();
     return;
   }
   showQuestion(currentQuestion);
 }
 
-// Inicial
-showQuestion(currentQuestion);
-
-// Calcular resultado
 function calcularResultado() {
   const respostas = Array.from(document.querySelectorAll('input[type="radio"]:checked'))
                           .map(input => input.value);
@@ -290,4 +286,45 @@ function calcularResultado() {
     case "social":
       titulo = "Perfil Social";
       texto = "Você possui forte empatia e habilidades de comunicação, essenciais para carreiras voltadas ao contato humano. Pessoas com seu perfil se destacam em atividades que exigem colaboração, mediação e cuidado com os outros. Se gosta de motivar, apoiar e trabalhar em equipe, pode transformar essas qualidades em impacto real na vida das pessoas. Com dedicação, você pode se tornar um líder inspirador, educador ou profissional de saúde capaz de gerar mudanças significativas na sociedade.";
-      profissoes = ["Psicólogo(a)", "Professor(a)", "Assistente Social", "Marketing e
+      profissoes = ["Psicólogo(a)", "Professor(a)", "Assistente Social", "Marketing"];
+      break;
+    case "tecnico":
+      titulo = "Perfil Técnico";
+      texto = "Você se destaca pela lógica, análise e habilidade de resolver problemas complexos. Carreiras que exigem raciocínio estruturado, planejamento e conhecimento técnico combinam com seu perfil. Com seu foco e dedicação, você pode inovar, desenvolver soluções eficientes e se tornar um profissional referência em sua área.";
+      profissoes = ["Engenheiro(a)", "Analista de Sistemas", "Pesquisador(a) em Tecnologia", "Contador(a)"];
+      break;
+    case "criativo":
+      titulo = "Perfil Criativo";
+      texto = "Sua imaginação, originalidade e capacidade de criar soluções novas são seu grande diferencial. Áreas que exigem inovação, design e expressão artística combinam com você. Com dedicação, você pode se destacar em profissões que misturam arte, comunicação e inovação, deixando sua marca pessoal e inspirando outros.";
+      profissoes = ["Designer", "Artista Visual", "Redator(a) Criativo", "Diretor(a) de Criação"];
+      break;
+    case "organizado":
+      titulo = "Perfil Organizado";
+      texto = "Você é estruturado(a), disciplinado(a) e gosta de planejar e controlar processos. Áreas que exigem gestão, coordenação e eficiência são ideais para você. Com seu perfil, é possível liderar projetos, otimizar processos e se tornar um profissional confiável e estratégico em qualquer empresa.";
+      profissoes = ["Administrador(a)", "Gerente de Projetos", "Contador(a)", "Analista de Processos"];
+      break;
+    case "variado":
+      titulo = "Perfil Versátil";
+      texto = "Você se adapta facilmente a diferentes situações, gosta de desafios variados e aprende rápido. Áreas dinâmicas, multidisciplinares e que exigem criatividade e flexibilidade combinam com você. Com esse perfil, você pode se destacar em ambientes inovadores e se tornar um profissional multifacetado.";
+      profissoes = ["Empreendedor(a)", "Consultor(a) Multidisciplinar", "Produtor(a) de Conteúdo", "Analista de Inovação"];
+      break;
+  }
+
+  document.getElementById('quizForm').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('resultTitle').textContent = titulo;
+  document.getElementById('resultText').textContent = texto;
+  const list = document.getElementById('professionsList');
+  list.innerHTML = "";
+  profissoes.forEach(p => {
+    const li = document.createElement('li');
+    li.textContent = p;
+    list.appendChild(li);
+  });
+}
+
+// Inicializar primeira pergunta
+showQuestion(currentQuestion);
+</script>
+</body>
+</html>
