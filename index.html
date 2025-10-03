@@ -1,272 +1,293 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste Vocacional Inspirador</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste Vocacional Interativo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
-    .container {
-      max-width: 720px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      padding: 30px 40px;
-    }
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
 
-    h1, h2 {
-      text-align: center;
-      color: #333;
-    }
+  .container {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 90%;
+    padding: 30px 25px;
+    text-align: center;
+    position: relative;
+  }
 
-    .question {
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
+  h1 {
+    margin-bottom: 15px;
+    color: #333;
+  }
 
-    .options {
-      list-style: none;
-      padding: 0;
-    }
+  p.description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 30px;
+  }
 
-    .options li {
-      margin: 8px 0;
-    }
+  .question {
+    display: none;
+    text-align: left;
+    animation: fadeIn 0.5s;
+  }
 
-    input[type="radio"] {
-      margin-right: 10px;
-    }
+  .question.active {
+    display: block;
+  }
 
-    button {
-      display: block;
-      margin: 30px auto;
-      background-color: #4a90e2;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+  .question h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #222;
+  }
 
-    button:hover {
-      background-color: #357abd;
-    }
+  .options {
+    list-style: none;
+    padding: 0;
+  }
 
-    .result {
-      display: none;
-      margin-top: 30px;
-      text-align: center;
-      background: #eaf0f8;
-      padding: 25px;
-      border-radius: 12px;
-    }
+  .options li {
+    margin: 10px 0;
+  }
 
-    .result h3 {
-      color: #333;
-      font-size: 24px;
-    }
+  input[type="radio"] {
+    margin-right: 10px;
+  }
 
-    .result p {
-      text-align: justify;
-      font-size: 16px;
-      color: #555;
-      line-height: 1.5;
-    }
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+  }
 
-    .professions {
-      margin-top: 15px;
-      padding-left: 20px;
-    }
+  button {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+  }
 
-    .professions li {
-      font-weight: normal;
-      margin-bottom: 5px;
-    }
-  </style>
+  button:hover {
+    background: #357abd;
+  }
+
+  .result {
+    display: none;
+    margin-top: 20px;
+    text-align: left;
+    background: #eaf0f8;
+    padding: 20px;
+    border-radius: 15px;
+    animation: fadeIn 0.5s;
+  }
+
+  .result h3 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .result p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: justify;
+  }
+
+  .professions {
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+
+  .professions li {
+    font-weight: normal;
+    margin-bottom: 5px;
+  }
+
+  @keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Teste Vocacional Inspirador</h1>
-    <p style="text-align:center; color:#555;">Descubra quais áreas combinam mais com você e inspire-se para construir seu futuro!</p>
+<div class="container">
+  <h1>Teste Vocacional</h1>
+  <p class="description">Descubra quais áreas combinam mais com você! Responda uma pergunta de cada vez.</p>
 
-    <form id="quizForm">
-      <!-- Perguntas -->
-      <div class="question">
-        1. Você prefere trabalhar:
-        <ul class="options">
-          <li><input type="radio" name="q1" value="social"> Em equipe</li>
-          <li><input type="radio" name="q1" value="tecnico"> Sozinho(a)</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        2. Quando surge um problema, você tende a:
-        <ul class="options">
-          <li><input type="radio" name="q2" value="criativo"> Procurar uma solução criativa</li>
-          <li><input type="radio" name="q2" value="tecnico"> Analisar os fatos de forma lógica</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        3. Você gosta mais de atividades:
-        <ul class="options">
-          <li><input type="radio" name="q3" value="pratico"> Práticas e manuais</li>
-          <li><input type="radio" name="q3" value="intelectual"> Intelectuais e de raciocínio</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        4. Você se considera mais:
-        <ul class="options">
-          <li><input type="radio" name="q4" value="social"> Comunicativo(a)</li>
-          <li><input type="radio" name="q4" value="organizado"> Organizado(a)</li>
-          <li><input type="radio" name="q4" value="social"> Atencioso(a) com pessoas</li>
-          <li><input type="radio" name="q4" value="criativo"> Criativo(a)</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        5. O que você faz melhor?
-        <ul class="options">
-          <li><input type="radio" name="q5" value="social"> Cuidar de pessoas</li>
-          <li><input type="radio" name="q5" value="tecnico"> Resolver cálculos ou questões técnicas</li>
-          <li><input type="radio" name="q5" value="social"> Convencer e vender ideias</li>
-          <li><input type="radio" name="q5" value="criativo"> Criar e desenhar coisas novas</li>
-          <li><input type="radio" name="q5" value="organizado"> Organizar e planejar</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        6. Qual dessas áreas mais desperta seu interesse?
-        <ul class="options">
-          <li><input type="radio" name="q6" value="social"> Saúde e bem-estar</li>
-          <li><input type="radio" name="q6" value="tecnico"> Exatas e tecnologia</li>
-          <li><input type="radio" name="q6" value="social"> Comunicação e humanas</li>
-          <li><input type="radio" name="q6" value="criativo"> Artes e criatividade</li>
-          <li><input type="radio" name="q6" value="organizado"> Administração e negócios</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        7. Você gostaria de trabalhar em um ambiente:
-        <ul class="options">
-          <li><input type="radio" name="q7" value="social"> Hospitalar ou de cuidado</li>
-          <li><input type="radio" name="q7" value="organizado"> Escritório ou empresa</li>
-          <li><input type="radio" name="q7" value="social"> Escola, jornal ou mídia</li>
-          <li><input type="radio" name="q7" value="criativo"> Estúdio, palco ou galeria</li>
-          <li><input type="radio" name="q7" value="tecnico"> Laboratório ou indústria</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        8. Você prefere uma rotina:
-        <ul class="options">
-          <li><input type="radio" name="q8" value="organizado"> Estável e organizada</li>
-          <li><input type="radio" name="q8" value="variado"> Variada e dinâmica</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        9. Para você é mais importante:
-        <ul class="options">
-          <li><input type="radio" name="q9" value="organizado"> Ter estabilidade financeira</li>
-          <li><input type="radio" name="q9" value="criativo"> Fazer o que ama, mesmo ganhando menos</li>
-        </ul>
-      </div>
-
-      <div class="question">
-        10. O que mais te motiva em um trabalho?
-        <ul class="options">
-          <li><input type="radio" name="q10" value="social"> Ajudar pessoas</li>
-          <li><input type="radio" name="q10" value="tecnico"> Ter desafios intelectuais</li>
-          <li><input type="radio" name="q10" value="social"> Trabalhar com pessoas e comunicação</li>
-          <li><input type="radio" name="q10" value="criativo"> Criar e inovar</li>
-          <li><input type="radio" name="q10" value="organizado"> Crescer em uma empresa</li>
-        </ul>
-      </div>
-
-      <button type="button" onclick="calcularResultado()">Ver resultado</button>
-    </form>
-
-    <div class="result" id="result">
-      <h3 id="resultTitle"></h3>
-      <p id="resultText"></p>
-      <ul class="professions" id="professionsList"></ul>
+  <form id="quizForm">
+    <!-- Perguntas -->
+    <div class="question active" data-index="0">
+      <h2>1. Você prefere trabalhar:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q0" value="social"> Em equipe</li>
+        <li><input type="radio" name="q0" value="tecnico"> Sozinho(a)</li>
+      </ul>
     </div>
+
+    <div class="question" data-index="1">
+      <h2>2. Quando surge um problema, você tende a:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q1" value="criativo"> Procurar uma solução criativa</li>
+        <li><input type="radio" name="q1" value="tecnico"> Analisar os fatos de forma lógica</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="2">
+      <h2>3. Você gosta mais de atividades:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q2" value="pratico"> Práticas e manuais</li>
+        <li><input type="radio" name="q2" value="intelectual"> Intelectuais e de raciocínio</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="3">
+      <h2>4. Você se considera mais:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q3" value="social"> Comunicativo(a)</li>
+        <li><input type="radio" name="q3" value="organizado"> Organizado(a)</li>
+        <li><input type="radio" name="q3" value="social"> Atencioso(a) com pessoas</li>
+        <li><input type="radio" name="q3" value="criativo"> Criativo(a)</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="4">
+      <h2>5. O que você faz melhor?</h2>
+      <ul class="options">
+        <li><input type="radio" name="q4" value="social"> Cuidar de pessoas</li>
+        <li><input type="radio" name="q4" value="tecnico"> Resolver cálculos ou questões técnicas</li>
+        <li><input type="radio" name="q4" value="social"> Convencer e vender ideias</li>
+        <li><input type="radio" name="q4" value="criativo"> Criar e desenhar coisas novas</li>
+        <li><input type="radio" name="q4" value="organizado"> Organizar e planejar</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="5">
+      <h2>6. Qual dessas áreas mais desperta seu interesse?</h2>
+      <ul class="options">
+        <li><input type="radio" name="q5" value="social"> Saúde e bem-estar</li>
+        <li><input type="radio" name="q5" value="tecnico"> Exatas e tecnologia</li>
+        <li><input type="radio" name="q5" value="social"> Comunicação e humanas</li>
+        <li><input type="radio" name="q5" value="criativo"> Artes e criatividade</li>
+        <li><input type="radio" name="q5" value="organizado"> Administração e negócios</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="6">
+      <h2>7. Você gostaria de trabalhar em um ambiente:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q6" value="social"> Hospitalar ou de cuidado</li>
+        <li><input type="radio" name="q6" value="organizado"> Escritório ou empresa</li>
+        <li><input type="radio" name="q6" value="social"> Escola, jornal ou mídia</li>
+        <li><input type="radio" name="q6" value="criativo"> Estúdio, palco ou galeria</li>
+        <li><input type="radio" name="q6" value="tecnico"> Laboratório ou indústria</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="7">
+      <h2>8. Você prefere uma rotina:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q7" value="organizado"> Estável e organizada</li>
+        <li><input type="radio" name="q7" value="variado"> Variada e dinâmica</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="8">
+      <h2>9. Para você é mais importante:</h2>
+      <ul class="options">
+        <li><input type="radio" name="q8" value="organizado"> Ter estabilidade financeira</li>
+        <li><input type="radio" name="q8" value="criativo"> Fazer o que ama, mesmo ganhando menos</li>
+      </ul>
+    </div>
+
+    <div class="question" data-index="9">
+      <h2>10. O que mais te motiva em um trabalho?</h2>
+      <ul class="options">
+        <li><input type="radio" name="q9" value="social"> Ajudar pessoas</li>
+        <li><input type="radio" name="q9" value="tecnico"> Ter desafios intelectuais</li>
+        <li><input type="radio" name="q9" value="social"> Trabalhar com pessoas e comunicação</li>
+        <li><input type="radio" name="q9" value="criativo"> Criar e inovar</li>
+        <li><input type="radio" name="q9" value="organizado"> Crescer em uma empresa</li>
+      </ul>
+    </div>
+
+    <div class="buttons">
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)" disabled>Voltar</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Próxima</button>
+    </div>
+  </form>
+
+  <div class="result" id="result">
+    <h3 id="resultTitle"></h3>
+    <p id="resultText"></p>
+    <ul class="professions" id="professionsList"></ul>
   </div>
+</div>
 
-  <script>
-    function calcularResultado() {
-      const respostas = Array.from(document.querySelectorAll('input[type="radio"]:checked'))
-                              .map(input => input.value);
+<script>
+let currentQuestion = 0;
+const questions = document.querySelectorAll('.question');
+const totalQuestions = questions.length;
 
-      if(respostas.length < 10) {
-        alert("Por favor, responda todas as perguntas!");
-        return;
-      }
+function showQuestion(n) {
+  questions.forEach(q => q.classList.remove('active'));
+  questions[n].classList.add('active');
 
-      const contador = {social:0, tecnico:0, criativo:0, organizado:0, variado:0};
-      respostas.forEach(r => {
-        contador[r] = (contador[r] || 0) + 1;
-      });
+  document.getElementById('prevBtn').disabled = n === 0;
+  document.getElementById('nextBtn').textContent = n === totalQuestions-1 ? 'Ver Resultado' : 'Próxima';
+}
 
-      let chave = Object.keys(contador).reduce((a,b) => contador[a] > contador[b] ? a : b);
+function nextPrev(n) {
+  // Checar se a pergunta foi respondida
+  const options = questions[currentQuestion].querySelectorAll('input[type="radio"]');
+  const answered = Array.from(options).some(opt => opt.checked);
+  if(n === 1 && !answered) { alert("Por favor, escolha uma opção."); return; }
 
-      let titulo = "";
-      let texto = "";
-      let profissoes = [];
+  currentQuestion += n;
 
-      switch(chave) {
-        case "social":
-          titulo = "Perfil Social";
-          texto = "Você possui forte empatia e habilidades de comunicação, essenciais para carreiras voltadas ao contato humano. Pessoas com seu perfil se destacam em atividades que exigem colaboração, mediação e cuidado com os outros. Se gosta de motivar, apoiar e trabalhar em equipe, pode transformar essas qualidades em impacto real na vida das pessoas. Com dedicação, você pode se tornar um líder inspirador, educador ou profissional de saúde capaz de gerar mudanças significativas na sociedade.";
-          profissoes = ["Psicólogo(a)", "Professor(a)", "Assistente Social", "Marketing e Comunicação"];
-          break;
-        case "tecnico":
-          titulo = "Perfil Técnico";
-          texto = "Você demonstra raciocínio lógico, interesse por tecnologia e capacidade de resolver problemas complexos. Esses traços são fundamentais para carreiras que exigem análise detalhada, precisão e inovação. Se gosta de explorar dados, criar soluções e entender como as coisas funcionam, sua mente técnica pode levar a avanços importantes na ciência, engenharia ou tecnologia. Invista em conhecimento, pratique habilidades técnicas e busque desafios que testem seu intelecto – você tem potencial para se tornar referência em sua área.";
-          profissoes = ["Engenheiro(a)", "Programador(a)", "Cientista", "Analista de Sistemas"];
-          break;
-        case "criativo":
-          titulo = "Perfil Criativo";
-          texto = "Sua mente é imaginativa, inventiva e aberta a novas possibilidades. Você se destaca em atividades que pedem inovação, expressão pessoal e pensamento fora da caixa. Pessoas com perfil criativo podem transformar ideias em soluções, produtos ou experiências que inspiram e encantam outros. Desenvolver suas habilidades em arte, design, escrita ou publicidade não só estimula sua criatividade, como também abre portas para carreiras únicas e gratificantes. Não tenha medo de ousar e experimentar – sua originalidade é seu maior diferencial.";
-          profissoes = ["Designer", "Artista", "Publicitário(a)", "Escritor(a)"];
-          break;
-        case "organizado":
-          titulo = "Perfil Organizado";
-          texto = "Você valoriza planejamento, disciplina e eficiência, habilidades fundamentais em ambientes corporativos, administrativos e estratégicos. Pessoas com seu perfil se destacam ao organizar processos, gerenciar equipes e estruturar projetos de maneira clara e eficaz. Se gosta de traçar metas, acompanhar resultados e tomar decisões baseadas em análise detalhada, pode transformar essas competências em sucesso profissional. Sua habilidade de criar ordem e consistência faz de você um pilar confiável em qualquer organização.";
-          profissoes = ["Administrador(a)", "Gerente de Projetos", "Contador(a)", "Consultor(a)"];
-          break;
-        case "variado":
-          titulo = "Perfil Dinâmico";
-          texto = "Você se adapta rapidamente a mudanças, busca desafios variados e gosta de explorar diferentes oportunidades. Pessoas com seu perfil prosperam em ambientes dinâmicos, projetos inovadores e funções que exigem criatividade e flexibilidade. Sua energia e curiosidade natural permitem que você aprenda rápido, lide bem com imprevistos e se destaque em situações complexas. Aproveitar essa versatilidade pode levá-lo(a) a carreiras empreendedoras, em eventos, vendas ou consultoria, onde sua capacidade de se reinventar constantemente será valorizada.";
-          profissoes = ["Empreendedor(a)", "Produtor(a) de Eventos", "Consultor(a)", "Vendedor(a)"];
-          break;
-      }
+  if(currentQuestion >= totalQuestions){
+    calcularResultado();
+    return;
+  }
+  showQuestion(currentQuestion);
+}
 
-      document.getElementById("resultTitle").textContent = titulo;
-      document.getElementById("resultText").textContent = texto;
+// Inicial
+showQuestion(currentQuestion);
 
-      const lista = document.getElementById("professionsList");
-      lista.innerHTML = "";
-      profissoes.forEach(p => {
-        const li = document.createElement("li");
-        li.textContent = p;
-        lista.appendChild(li);
-      });
+// Calcular resultado
+function calcularResultado() {
+  const respostas = Array.from(document.querySelectorAll('input[type="radio"]:checked'))
+                          .map(input => input.value);
 
-      document.getElementById("result").style.display = "block";
-      document.getElementById("result").scrollIntoView({behavior: "smooth"});
-    }
-  </script>
-</body>
-</html>
+  const contador = {social:0, tecnico:0, criativo:0, organizado:0, variado:0};
+  respostas.forEach(r => { contador[r] = (contador[r] || 0) + 1; });
+
+  let chave = Object.keys(contador).reduce((a,b) => contador[a] > contador[b] ? a : b);
+
+  let titulo = "", texto = "", profissoes = [];
+
+  switch(chave) {
+    case "social":
+      titulo = "Perfil Social";
+      texto = "Você possui forte empatia e habilidades de comunicação, essenciais para carreiras voltadas ao contato humano. Pessoas com seu perfil se destacam em atividades que exigem colaboração, mediação e cuidado com os outros. Se gosta de motivar, apoiar e trabalhar em equipe, pode transformar essas qualidades em impacto real na vida das pessoas. Com dedicação, você pode se tornar um líder inspirador, educador ou profissional de saúde capaz de gerar mudanças significativas na sociedade.";
+      profissoes = ["Psicólogo(a)", "Professor(a)", "Assistente Social", "Marketing e
